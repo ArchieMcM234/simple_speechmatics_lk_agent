@@ -1,29 +1,6 @@
-# simple_speechmatics_lk_agent
 
 
-graph LR
-    A[User] -- Speaks --> B(Client Agent)
-    B -- Stream Audio --> C{LiveKit Server}
-    C -- Forward --> D[Speechmatics API]
-    D -- Transcript --> C
-    C -- Data --> B
-
-
-
-
-
-We use **uv** for package management. Please follow the [official installation guide](https://docs.astral.sh/uv/getting-started/installation/) or simply use the command for your system below:
-
-**macOS / Linux:**
-```bash
-curl -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh
-
-**Windows:**
-powershell -c "irm [https://astral.sh/uv/install.ps1](https://astral.sh/uv/install.ps1) | iex"
-
-
-
-# simple_speechmatics_lk_agent
+# Speechmatics LiveKit Agent
 
 A simple AI voice agent using **Speechmatics** for transcription and **LiveKit** for real-time audio streaming.
 
