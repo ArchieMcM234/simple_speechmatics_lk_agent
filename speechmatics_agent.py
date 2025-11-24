@@ -1,0 +1,56 @@
+from dotenv import load_dotenv
+
+from livekit import agents, rtc
+from livekit.agents import AgentServer,AgentSession, Agent, room_io
+from livekit.plugins import noise_cancellation, silero
+from livekit.plugins.turn_detector.multilingual import MultilingualModel
+
+from livekit.plugins import speechmatics
+import asyncio
+from speechmatics.tts import AsyncClient, Voice, OutputFormat
+
+
+
+load_dotenv(".env.local")
+
+
+
+
+
+class Assistant(Agent):
+    def __init__(self) -> None:
+        super().__init__(
+            instructions="""You """,
+        )
+
+server = AgentServer()
+
+@server.rtc_session()
+async def my_agent(ctx: agents.JobContext):
+    session = AgentSession(
+        stt=speechmatics.STT(language="en"),
+        llm="openai/gpt-4.1-mini",
+        tts=speechmatics.TTS(),
+        vad=silero.VAD.load(),
+        turn_detection=MultilingualModel(),
+    )
+
+    await session.start(
+        room=ctx.room,
+        agent=Assistant(),
+        room_options=room_io.RoomOptions(
+            audio_input=room_io.AudioInputOptions(
+                noise_cancellation=lambda params: noise_cancellation.BVCTelephony() if params.participant.kind == rtc.ParticipantKind.PARTICIPANT_KIND_SIP else noise_cancellation.BVC(),
+            ),
+        ),
+    )
+
+    await session.generate_reply(
+        instructions="You are Sarah a voice agent made by Speechmatics using"
+         "their realtime speech to text aswell as there text to speech." 
+         "You are welcoming and helpful and have a sense of humour."
+    )
+
+
+if __name__ == "__main__":
+    agents.cli.run_app(server)
