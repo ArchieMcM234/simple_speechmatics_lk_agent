@@ -1,10 +1,10 @@
+# 🎙️ Speechmatics LiveKit Agent
 
+A simple **LiveKit** AI voice agent using **Speechmatics** for STT (Speech-to-Text) and TTS (Text-to-Speech).
 
-# Speechmatics LiveKit Agent
+---
 
-A simple **LiveKit** AI voice agent using **Speechmatics** for STT and TTS.
-
-## Getting up and running
+## ⚡ Getting Up and Running
 
 ### 1. Install `uv`
 
@@ -17,23 +17,22 @@ uv --version
 
 ### 2. Install LiveKit CLI
 
-We will be using the LiveKit command line interface to quickly get up and running. 
+We will be using the LiveKit command line interface to quickly get up and running.
 
 <details>
 <summary><b>🍎 macOS </b></summary>
 
 ```bash
-curl -sSL https://get.livekit.io/cli | bash
+curl -sSL [https://get.livekit.io/cli](https://get.livekit.io/cli) | bash
 ```
-
 </details>
+
 <details>
 <summary><b>🐧 Linux</b></summary>
 
 ```bash
 brew install livekit-cli
 ```
-
 </details>
 
 <details>
@@ -42,13 +41,12 @@ brew install livekit-cli
 ```powershell
 winget install LiveKit.LiveKitCLI
 ```
-
 </details>
 
 
 ### 3. Link your LiveKit Cloud project to the CLI
 
-(If running in console you can skip)
+*(If running in console you can skip this step)*
 
 ```bash
 lk cloud auth
@@ -56,11 +54,7 @@ lk cloud auth
 
 This will open a browser window allowing you to sign in or sign up to **LiveKit Cloud** and allowing your browser to connect to the agent we will create.
 
-
-
-
-
-### 4. Intitialise a project
+### 4. Initialise a project
 
 ```bash
 uv init livekit-voice-agent --bare
@@ -73,51 +67,49 @@ cd livekit-voice-agent
 uv add \
   "livekit-agents[silero,turn-detector]~=1.2" \
   "livekit-plugins-noise-cancellation~=0.2" \
-  "livekit-plugins-speechmatics"
+  "livekit-plugins-speechmatics" \
   "python-dotenv"
 ```
 
-
 ### 6. Get your API keys
 
+Generate your local environment file:
 ```bash
 lk app env -w
 ```
-This will create a .env.local file using the api keys and urls linked to your LiveKit cloud account.
+This will create a `.env.local` file using the API keys and URLs linked to your LiveKit cloud account.
 
-To this file we will now add api keys for Speechmatics and OpenAI.
+To this file, we will now add API keys for Speechmatics and OpenAI.
 
-Go to the [Speechmatics website](https://docs.speechmatics.com) and signup and get an api key.
+> **Note:** Go to the [Speechmatics website](https://docs.speechmatics.com) to sign up and get an API key.
 
-Add these lines to your .env.local file.
+Add these lines to your `.env.local` file:
 
+```env
+SPEECHMATICS_API_KEY="<Your Speechmatics Key>"
+OPENAI_API_KEY="<Your OpenAI Key>"
 ```
-OPENAI_API_KEY = "<Your API Key>"
-SPEECHMATICS_API_KEY="<Your API Key>"
-```
 
+### 7. Create `speechmatics_agent.py`
 
-### 7. Create speechmatics_agent.py
-
-Download, clone, or copy and paste the python code in speechmatics_agent.py into a python file in your project.
+Download, clone, or copy and paste the Python code into a file named `speechmatics_agent.py` in your project directory.
 
 ### 8. Download model files
-Run the command:
+
+Run the command to download models for voice activity detection and turn detection:
+```bash
+uv run speechmatics_agent.py download-files
 ```
-uv run agent.py download-files
-```
-This downloads the models for voice activity detection and turn detection.
 
 ### 9. Try your agent
 
-You can now run your agent in the command line:
-```
+**Option A: Run in command line**
+```bash
 uv run speechmatics_agent.py console
 ```
 
-Or for a freindlier UI connect it to [LiveKit playground](https://docs.livekit.io/agents/start/playground/):
+**Option B: LiveKit Playground (UI)**
+For a friendlier UI, connect it to the [LiveKit Playground](https://docs.livekit.io/agents/start/playground/):
+```bash
+uv run speechmatics_agent.py dev
 ```
-uv run agent.py dev
-```
-
-
