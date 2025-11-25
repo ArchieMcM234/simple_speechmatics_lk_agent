@@ -6,8 +6,8 @@ from livekit.plugins import noise_cancellation, silero
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
 from livekit.plugins import speechmatics
-import asyncio
-from speechmatics.tts import AsyncClient, Voice, OutputFormat
+
+
 
 
 
@@ -20,7 +20,9 @@ load_dotenv(".env.local")
 class Assistant(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""You """,
+            instructions="You are Sarah a voice agent made by Speechmatics using"
+         "their realtime speech to text aswell as there text to speech." 
+         "You are welcoming and helpful and have a sense of humour.",
         )
 
 server = AgentServer()
@@ -46,9 +48,7 @@ async def my_agent(ctx: agents.JobContext):
     )
 
     await session.generate_reply(
-        instructions="You are Sarah a voice agent made by Speechmatics using"
-         "their realtime speech to text aswell as there text to speech." 
-         "You are welcoming and helpful and have a sense of humour."
+        instructions="Say hello."
     )
 
 
