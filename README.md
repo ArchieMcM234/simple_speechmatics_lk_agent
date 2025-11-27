@@ -23,7 +23,7 @@ We will be using the LiveKit command line interface to quickly get up and runnin
 <summary><b>🍎 macOS </b></summary>
 
 ```bash
-curl -sSL [https://get.livekit.io/cli](https://get.livekit.io/cli) | bash
+brew install livekit-cli
 ```
 </details>
 
@@ -31,7 +31,7 @@ curl -sSL [https://get.livekit.io/cli](https://get.livekit.io/cli) | bash
 <summary><b>🐧 Linux</b></summary>
 
 ```bash
-brew install livekit-cli
+curl -sSL [https://get.livekit.io/cli](https://get.livekit.io/cli) | bash
 ```
 </details>
 
@@ -68,14 +68,16 @@ uv add \
   "livekit-agents[silero,turn-detector]~=1.2" \
   "livekit-plugins-noise-cancellation~=0.2" \
   "livekit-plugins-speechmatics" \
-  "python-dotenv"
+  "livekit-plugins-openai" \
+  "python-dotenv" \
+  "torch"
 ```
 
 ### 6. Get your API keys
 
 Generate your local environment file:
 ```bash
-lk app env -w
+lk app env > .env
 ```
 This will create a `.env.local` file using the API keys and URLs linked to your LiveKit cloud account.
 
@@ -83,7 +85,7 @@ To this file, we will now add API keys for Speechmatics and OpenAI.
 
 > **Note:** Go to the [Speechmatics website](https://docs.speechmatics.com) to sign up and get an API key.
 
-Add these lines to your `.env.local` file:
+Add these lines to your `.env` file:
 
 ```env
 SPEECHMATICS_API_KEY="<Your Speechmatics Key>"
